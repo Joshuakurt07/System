@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EBillDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tbl_BillDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="MobileNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TotalAmount" Type="Int32" />
+    <NavigationProperty Name="tbl_BillItems" Relationship="Self.FK__tbl_BillI__BillI__1273C1CD" FromRole="tbl_BillDetails" ToRole="tbl_BillItems" />
+  </EntityType>
+  <EntityType Name="tbl_BillItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="BillId" Type="Int32" />
+    <NavigationProperty Name="tbl_BillDetails" Relationship="Self.FK__tbl_BillI__BillI__1273C1CD" FromRole="tbl_BillItems" ToRole="tbl_BillDetails" />
+  </EntityType>
+  <EntityType Name="UserRegister">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK__tbl_BillI__BillI__1273C1CD">
+    <End Role="tbl_BillDetails" Type="Self.tbl_BillDetails" Multiplicity="0..1" />
+    <End Role="tbl_BillItems" Type="Self.tbl_BillItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_BillDetails">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_BillItems">
+        <PropertyRef Name="BillId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EBillDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tbl_BillDetails" EntityType="Self.tbl_BillDetails" />
+    <EntitySet Name="tbl_BillItems" EntityType="Self.tbl_BillItems" />
+    <EntitySet Name="UserRegisters" EntityType="Self.UserRegister" />
+    <AssociationSet Name="FK__tbl_BillI__BillI__1273C1CD" Association="Self.FK__tbl_BillI__BillI__1273C1CD">
+      <End Role="tbl_BillDetails" EntitySet="tbl_BillDetails" />
+      <End Role="tbl_BillItems" EntitySet="tbl_BillItems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
